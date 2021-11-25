@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loginUser } from '../redux/action/index';
+import { loginUser, tokenAPI } from '../redux/action/index';
 
 class Login extends React.Component {
   constructor() {
@@ -10,6 +10,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.sendTokenToLocalStorage = this.sendTokenToLocalStorage.bind(this);
 
     this.state = {
       name: '',
@@ -22,14 +23,22 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleClick() {
-    const { userLogin, history } = this.props;
+  async handleClick() {
+    const { userLogin, history, setToken } = this.props;
 
     userLogin({ ...this.state });
 
     this.setState({ name: '', email: '' });
 
+    await setToken();
+    this.sendTokenToLocalStorage();
     history.push('/game');
+  }
+
+  sendTokenToLocalStorage() {
+    const { token } = this.props;
+    console.log('token', token);
+    localStorage.setItem('token', token);
   }
 
   render() {
@@ -83,6 +92,11 @@ Login.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (state) => dispatch(loginUser(state)),
+  setToken: (token) => dispatch(tokenAPI(token)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => ({
+  token: state.tokenReducer.token,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
