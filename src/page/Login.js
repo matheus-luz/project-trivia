@@ -11,6 +11,7 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.sendTokenToLocalStorage = this.sendTokenToLocalStorage.bind(this);
+    this.handleSettings = this.handleSettings.bind(this);
 
     this.state = {
       name: '',
@@ -41,43 +42,59 @@ class Login extends React.Component {
     localStorage.setItem('token', token);
   }
 
+  handleSettings() {
+    const { history } = this.props;
+
+    history.push('/settings');
+  }
+
   render() {
     const { name, email } = this.state;
     return (
       <section>
-        <label htmlFor="name">
-          Nome:
-          <input
-            data-testid="input-player-name"
-            id="name"
-            name="name"
-            type="text"
-            onChange={ this.handleChange }
-            value={ name }
-          />
-        </label>
+        <form>
+          <label htmlFor="name">
+            Nome:
+            <input
+              data-testid="input-player-name"
+              id="name"
+              name="name"
+              type="text"
+              onChange={ this.handleChange }
+              value={ name }
+            />
+          </label>
 
-        <label htmlFor="email">
-          Email:
-          <input
-            data-testid="input-gravatar-email"
-            id="email"
-            name="email"
-            type="email"
-            onChange={ this.handleChange }
-            value={ email }
-          />
-        </label>
+          <label htmlFor="email">
+            Email:
+            <input
+              data-testid="input-gravatar-email"
+              id="email"
+              name="email"
+              type="email"
+              onChange={ this.handleChange }
+              value={ email }
+            />
+          </label>
 
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ !email || !name }
-          onClick={ this.handleClick }
-        >
-          Jogar
-        </button>
-
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ !email || !name }
+            onClick={ this.handleClick }
+          >
+            Jogar
+          </button>
+          <label htmlFor="button">
+            Configurações
+            <input
+              type="button"
+              id="button"
+              data-testid="btn-settings"
+              onClick={ this.handleSettings }
+            />
+          </label>
+        </form>
       </section>
     );
   }
