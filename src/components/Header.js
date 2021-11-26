@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 const GRAVATAR = 'https://www.gravatar.com/avatar/';
 const EMAIL_TO_HASH = (email) => md5(email).toString();
 
-class Header extends Component {
+class Header extends React.Component {
   render() {
     const { name, email, score } = this.props;
     return (
