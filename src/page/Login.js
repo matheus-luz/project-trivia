@@ -88,7 +88,7 @@ class Login extends React.Component {
           <Button
             type="button"
             datatestid="btn-settings"
-            onClick={ this.handleSettings }
+            handleClick={ this.handleSettings }
             description="Configurações"
           />
         </form>
