@@ -18,6 +18,8 @@ class Game extends React.Component {
     this.handleQuestion = this.handleQuestion.bind(this);
     this.createQuestions = this.createQuestions.bind(this);
     this.createButtonsArray = this.createButtonsArray.bind(this);
+    this.handleQuestionClick = this.handleQuestionClick.bind(this);
+    this.createButton = this.createButton.bind(this);
   }
 
   componentDidMount() {
@@ -41,25 +43,44 @@ class Game extends React.Component {
     } return array;
   }
 
-  createButton(question, datatestText, index) {
+  createButton(question, datatestText, index, colorQuestion) {
     return (
       <Button
         key={ index }
         description={ question }
         datatestid={ `${datatestText}${index}` }
+        className={ colorQuestion }
+        handleClick={ this.handleQuestionClick }
       />
     );
+  }
+
+  changeButtonsColor() {
+    const buttons = document.querySelectorAll('.btn-question');
+    buttons.forEach((button) => {
+      if (button.classList.contains('correct')) {
+        button.classList.add('green-border');
+      } else {
+        button.classList.add('red-border');
+      }
+    });
+  }
+
+  handleQuestionClick() {
+    this.changeButtonsColor();
   }
 
   createButtonsArray(array) {
     const wrong = 'wrong-answer-';
     const correct = 'correct-answer';
+    const correctColor = 'correct btn-question';
+    const incorrectColor = 'incorrect btn-question';
     const buttonArray = [];
     array.forEach((question, index) => {
       if (index === array.length - 1) {
-        buttonArray.push(this.createButton(question, correct, ''));
+        buttonArray.push(this.createButton(question, correct, '', correctColor));
       } else {
-        buttonArray.push(this.createButton(question, wrong, index));
+        buttonArray.push(this.createButton(question, wrong, index, incorrectColor));
       }
     });
     return buttonArray;
