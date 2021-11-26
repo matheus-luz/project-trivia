@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from '../components/Button';
+import Header from '../components/Header';
 import requestQuestions from '../services/index';
 
 class Game extends React.Component {
@@ -79,6 +80,7 @@ class Game extends React.Component {
         {
           loading ? <span>Loading...</span> : (
             <>
+              <Header />
               <h4 data-testid="question-text">{questions[index].question}</h4>
               <h3 data-testid="question-category">{questions[index].category}</h3>
               { this.createQuestions(questions[index]) }
