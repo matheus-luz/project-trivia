@@ -74,7 +74,6 @@ class Game extends React.Component {
 
   render() {
     const { questions, loading, index } = this.state;
-    console.log(questions);
     return (
       <section>
         {
@@ -100,14 +99,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Game);
-
-/*
-
-category: "General Knowledge"
-correct_answer: "Rosh Hashanah"
-difficulty: "easy"
-incorrect_answers: (3) ['Elul', 'New Year', 'Succoss']
-question: "What is the name of the Jewish New Year?"
-type: "multiple"
-
-*/
