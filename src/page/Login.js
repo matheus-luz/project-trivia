@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-
+import Button from '../components/Button';
 import { loginUser, tokenAPI } from '../redux/action/index';
 
 class Login extends React.Component {
@@ -85,15 +85,12 @@ class Login extends React.Component {
           >
             Jogar
           </button>
-          <label htmlFor="button">
-            Configurações
-            <input
-              type="button"
-              id="button"
-              data-testid="btn-settings"
-              onClick={ this.handleSettings }
-            />
-          </label>
+          <Button
+            type="button"
+            datatestid="btn-settings"
+            onClick={ this.handleSettings }
+            description="Configurações"
+          />
         </form>
       </section>
     );
