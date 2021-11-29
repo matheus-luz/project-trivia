@@ -35,6 +35,11 @@ class Game extends React.Component {
     this.setState({ timerId });
   }
 
+  setLocalStorageState() {
+    const { player } = this.props;
+    localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
   async handleQuestion() {
     const { token } = this.props;
     const response = await requestQuestions(token);
@@ -112,11 +117,6 @@ class Game extends React.Component {
   stopTimer() {
     const { timerId } = this.state;
     clearInterval(timerId);
-  }
-
-  setLocalStorageState() {
-    const { player } = this.props;
-    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   createButtonsArray(array) {
