@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import requestQuestions from '../services/index';
+import Timer from '../components/Timer';
 
 class Game extends React.Component {
   constructor(props) {
@@ -66,6 +67,13 @@ class Game extends React.Component {
     });
   }
 
+  disableButtons() {
+    const buttons = document.querySelectorAll('.btn-question');
+    buttons.forEach((button) => {
+      button.disabled = true;
+    });
+  }
+
   handleQuestionClick() {
     this.changeButtonsColor();
   }
@@ -102,6 +110,10 @@ class Game extends React.Component {
           loading ? <span>Loading...</span> : (
             <>
               <Header />
+              <Timer
+                changeButtonsColor={ this.changeButtonsColor }
+                disableButtons={ this.disableButtons }
+              />
               <h4 data-testid="question-text">{questions[index].question}</h4>
               <h3 data-testid="question-category">{questions[index].category}</h3>
               { this.createQuestions(questions[index]) }
