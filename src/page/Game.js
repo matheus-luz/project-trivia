@@ -106,6 +106,12 @@ class Game extends React.Component {
   }
 
   nextQuestions() {
+    const { index } = this.state;
+    const { history } = this.props;
+    const five = 4;
+    if (index === five) {
+      history.push('/feedback');
+    }
     this.setState(
       (prevState) => ({ index: prevState.index + 1, nextButton: false }),
     );
