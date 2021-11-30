@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import Header from '../components/Header';
 import requestQuestions from '../services/index';
 import Timer from '../components/Timer';
+import { setScore } from '../redux/action';
 
 class Game extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Game extends React.Component {
       questions: [],
       loading: true,
       index: 0,
+      timerId: 0,
     };
 
     this.handleQuestion = this.handleQuestion.bind(this);
@@ -21,10 +23,21 @@ class Game extends React.Component {
     this.createButtonsArray = this.createButtonsArray.bind(this);
     this.handleQuestionClick = this.handleQuestionClick.bind(this);
     this.createButton = this.createButton.bind(this);
+    this.setTimerId = this.setTimerId.bind(this);
   }
 
   componentDidMount() {
     this.handleQuestion();
+    this.setLocalStorageState();
+  }
+
+  setTimerId(timerId) {
+    this.setState({ timerId });
+  }
+
+  setLocalStorageState() {
+    const { player } = this.props;
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   async handleQuestion() {
@@ -74,8 +87,36 @@ class Game extends React.Component {
     });
   }
 
-  handleQuestionClick() {
+  async handleQuestionClick({ target }) {
     this.changeButtonsColor();
+    this.stopTimer();
+    await this.countScore(target);
+    this.disableButtons();
+    this.setLocalStorageState();
+  }
+
+  countScore(questionClicked) {
+    if (!questionClicked.classList.contains('incorrect')) {
+      const { questions, index } = this.state;
+      const { countScore } = this.props;
+      const dificuldade = {
+        easy: 1,
+        medium: 2,
+        hard: 3,
+      };
+      const timer = document.getElementById('timer');
+      const timerValue = Number(timer.innerText);
+      const defaultPoints = 10;
+      const difficultyString = questions[index].difficulty;
+
+      const score = defaultPoints + (timerValue * dificuldade[difficultyString]);
+      countScore(score);
+    }
+  }
+
+  stopTimer() {
+    const { timerId } = this.state;
+    clearInterval(timerId);
   }
 
   createButtonsArray(array) {
@@ -113,6 +154,7 @@ class Game extends React.Component {
               <Timer
                 changeButtonsColor={ this.changeButtonsColor }
                 disableButtons={ this.disableButtons }
+                setTimerId={ this.setTimerId }
               />
               <h4 data-testid="question-text">{questions[index].question}</h4>
               <h3 data-testid="question-category">{questions[index].category}</h3>
@@ -127,10 +169,16 @@ class Game extends React.Component {
 
 Game.propTypes = {
   token: PropTypes.any,
+  countScore: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
   token: state.tokenReducer.token,
+  player: state.playerReducer,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  countScore: (score) => dispatch(setScore(score)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

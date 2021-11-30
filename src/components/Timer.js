@@ -6,10 +6,8 @@ class Timer extends React.Component {
     super();
     this.state = {
       time: 30,
-      timerOn: true,
       timerId: 0,
     };
-    this.turnTimer = this.turnTimer.bind(this);
   }
 
   componentDidMount() {
@@ -27,27 +25,20 @@ class Timer extends React.Component {
     }
   }
 
-  turnTimer(bool) {
-    this.setState({
-      timerOn: bool,
-    });
-  }
-
   updateSeconds() {
     const ONE_SECOND = 1000;
-    const { timerOn } = this.state;
+    const { setTimerId } = this.props;
     const timerId = setInterval(() => {
-      if (timerOn) {
-        this.setState((prevState) => ({ time: prevState.time - 1 }));
-      }
+      this.setState((prevState) => ({ time: prevState.time - 1 }));
     }, ONE_SECOND);
     this.setState({ timerId });
+    setTimerId(timerId);
   }
 
   render() {
     const { time } = this.state;
     return (
-      <section>
+      <section id="timer">
         <p>
           {' '}
           { time }
