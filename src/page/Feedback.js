@@ -5,19 +5,20 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
+    const { player: { score, assertions } } = this.props;
+    const NUMBER_THREE = 3;
     return (
       <>
         <Header />
         <main>
           <h2 data-testid="feedback-total-score">
-            {/* { score } */}
+            { score }
           </h2>
           <h2 data-testid="feedback-total-question">
-            {/* { assertions } */}
+            { assertions }
           </h2>
           <h1 data-testid="feedback-text">
-            Mandou bem!
-            Podia ser melhor...
+            {assertions >= NUMBER_THREE ? 'Mandou bem!' : 'Podia ser melhor...' }
           </h1>
           <button
             data-testid="btn-play-again"
@@ -48,7 +49,7 @@ Feedback.propTypes = {
 
 const mapStateToProps = (state) => (
   {
-    player: state.player,
+    player: state.playerReducer,
   }
 );
 
