@@ -27,7 +27,7 @@ class Feedback extends Component {
 
           </button>
           <button
-            data-testid="btn-ranking"
+            data-testid="btn-go-home"
             type="button"
           >
             Ver Ranking

@@ -7,6 +7,8 @@ import requestQuestions from '../services/index';
 import Timer from '../components/Timer';
 import { setScore } from '../redux/action';
 
+const buttonClassName = '.btn-question';
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,7 @@ class Game extends React.Component {
       loading: true,
       index: 0,
       timerId: 0,
+      nextButton: false,
     };
 
     this.handleQuestion = this.handleQuestion.bind(this);
@@ -24,6 +27,8 @@ class Game extends React.Component {
     this.handleQuestionClick = this.handleQuestionClick.bind(this);
     this.createButton = this.createButton.bind(this);
     this.setTimerId = this.setTimerId.bind(this);
+    this.setNextButton = this.setNextButton.bind(this);
+    this.nextQuestions = this.nextQuestions.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +43,10 @@ class Game extends React.Component {
   setLocalStorageState() {
     const { player } = this.props;
     localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
+  setNextButton(boolean) {
+    this.setState({ nextButton: boolean });
   }
 
   async handleQuestion() {
@@ -70,7 +79,7 @@ class Game extends React.Component {
   }
 
   changeButtonsColor() {
-    const buttons = document.querySelectorAll('.btn-question');
+    const buttons = document.querySelectorAll(buttonClassName);
     buttons.forEach((button) => {
       if (button.classList.contains('correct')) {
         button.classList.add('green-border');
@@ -81,7 +90,7 @@ class Game extends React.Component {
   }
 
   disableButtons() {
-    const buttons = document.querySelectorAll('.btn-question');
+    const buttons = document.querySelectorAll(buttonClassName);
     buttons.forEach((button) => {
       button.disabled = true;
     });
@@ -93,6 +102,33 @@ class Game extends React.Component {
     await this.countScore(target);
     this.disableButtons();
     this.setLocalStorageState();
+    this.setNextButton(true);
+  }
+
+  nextQuestions() {
+    this.setState(
+      (prevState) => ({ index: prevState.index + 1, nextButton: false }),
+    );
+    this.enableButtons();
+  }
+
+  enableButtons() {
+    const buttons = document.querySelectorAll(buttonClassName);
+    buttons.forEach((button) => {
+      button.disabled = false;
+    });
+  }
+
+  nextButton() {
+    return (
+      <button
+        data-testid="btn-next"
+        onClick={ this.nextQuestions }
+        type="button"
+      >
+        Próxima
+      </button>
+    );
   }
 
   countScore(questionClicked) {
@@ -144,7 +180,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { questions, loading, index } = this.state;
+    const { questions, loading, index, nextButton } = this.state;
     return (
       <section>
         {
@@ -159,6 +195,7 @@ class Game extends React.Component {
               <h4 data-testid="question-text">{questions[index].question}</h4>
               <h3 data-testid="question-category">{questions[index].category}</h3>
               { this.createQuestions(questions[index]) }
+              { nextButton && this.nextButton() }
             </>
           )
         }
