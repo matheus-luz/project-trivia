@@ -7,12 +7,17 @@ class Feedback extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.redirectToRanking = this.redirectToRanking.bind(this);
   }
 
   handleClick() {
     const { history } = this.props;
     history.push('/');
-    console.log('gfdgd');
+  }
+
+  redirectToRanking() {
+    const { history } = this.props;
+    history.push('/ranking');
   }
 
   render() {
@@ -41,7 +46,8 @@ class Feedback extends Component {
 
           </button>
           <button
-            data-testid="btn-go-home"
+            onClick={ this.redirectToRanking }
+            data-testid="btn-ranking"
             type="button"
           >
             Ver Ranking
