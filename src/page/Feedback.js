@@ -4,6 +4,17 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { history } = this.props;
+    history.push('/');
+    console.log('gfdgd');
+  }
+
   render() {
     const { player: { score, assertions } } = this.props;
     const NUMBER_THREE = 3;
@@ -19,8 +30,10 @@ class Feedback extends Component {
           </h2>
           <h1 data-testid="feedback-text">
             {assertions >= NUMBER_THREE ? 'Mandou bem!' : 'Podia ser melhor...' }
+
           </h1>
           <button
+            onClick={ this.handleClick }
             data-testid="btn-play-again"
             type="button"
           >
