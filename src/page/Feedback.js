@@ -10,10 +10,10 @@ class Feedback extends Component {
         <Header />
         <main>
           <h2 data-testid="feedback-total-score">
-            {/* { score } */}
+            { score }
           </h2>
           <h2 data-testid="feedback-total-question">
-            {/* { assertions } */}
+            { assertions }
           </h2>
           <h1 data-testid="feedback-text">
             Mandou bem!
@@ -27,7 +27,7 @@ class Feedback extends Component {
 
           </button>
           <button
-            data-testid="btn-go-home"
+            data-testid="btn-ranking"
             type="button"
           >
             Ver Ranking
