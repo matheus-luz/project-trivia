@@ -5,6 +5,7 @@ import md5 from 'crypto-js/md5';
 const GRAVATAR = 'https://www.gravatar.com/avatar/';
 const EMAIL_TO_HASH = (email) => md5(email).toString();
 
+
 class Ranking extends React.Component {
   constructor() {
     super();
@@ -50,6 +51,7 @@ class Ranking extends React.Component {
 
     return rankingList;
   }
+
 
   render() {
     return (
