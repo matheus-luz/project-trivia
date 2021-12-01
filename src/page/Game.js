@@ -29,6 +29,7 @@ class Game extends React.Component {
     this.setTimerId = this.setTimerId.bind(this);
     this.setNextButton = this.setNextButton.bind(this);
     this.nextQuestions = this.nextQuestions.bind(this);
+    this.setLocalStorageRanking = this.setLocalStorageRanking.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +44,17 @@ class Game extends React.Component {
   setLocalStorageState() {
     const { player } = this.props;
     localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
+  setLocalStorageRanking() {
+    const { player } = this.props;
+    const validRanking = JSON.parse(localStorage.getItem('ranking'));
+    if (validRanking) {
+      validRanking.push(player);
+      localStorage.setItem('ranking', JSON.stringify(validRanking));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([player]));
+    }
   }
 
   setNextButton(boolean) {
@@ -110,6 +122,7 @@ class Game extends React.Component {
     const { history } = this.props;
     const four = 4;
     if (index === four) {
+      this.setLocalStorageRanking();
       history.push('/feedback');
     }
     this.setState(
