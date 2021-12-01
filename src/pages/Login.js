@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import Bootstrap from '../components/Bootstrap';
 import Button from '../components/Button';
 import { loginUser, tokenAPI } from '../redux/action/index';
+import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor() {
@@ -38,7 +40,6 @@ class Login extends React.Component {
 
   sendTokenToLocalStorage() {
     const { token } = this.props;
-    console.log('token', token);
     localStorage.setItem('token', token);
   }
 
@@ -52,6 +53,7 @@ class Login extends React.Component {
     const { name, email } = this.state;
     return (
       <section>
+        <img src={ logo } className="logo-login" alt="jogo-trivia" />
         <form>
           <label htmlFor="name">
             Nome:
@@ -68,6 +70,7 @@ class Login extends React.Component {
           <label htmlFor="email">
             Email:
             <input
+              className="input-email"
               data-testid="input-gravatar-email"
               id="email"
               name="email"
@@ -92,6 +95,7 @@ class Login extends React.Component {
             description="Configurações"
           />
         </form>
+        <Bootstrap />
       </section>
     );
   }

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import './App.css';
-import Game from './page/Game';
-import Login from './page/Login';
-import Settings from './page/Settings';
-import Feedback from './page/Feedback';
-import Ranking from './page/Ranking';
+import Game from './pages/Game';
+import Login from './pages/Login';
+import Settings from './pages/Settings';
+import Feedback from './pages/Feedback';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
